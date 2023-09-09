@@ -6,12 +6,16 @@ package frc.robot;
 
 import frc.robot.Constants.OperatorConstants;
 import frc.robot.commands.Autos;
+import frc.robot.commands.DriveManuallyCommand;
 import frc.robot.commands.ExampleCommand;
 import frc.robot.subsystems.DriveSubsystem;
 import frc.robot.subsystems.ExampleSubsystem;
 import frc.robot.subsystems.SmartDashboardSubsystem;
+import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
+import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 
 /**
@@ -28,6 +32,9 @@ public class RobotContainer {
 
   public static final SmartDashboardSubsystem smartDashboardSubsystem = new SmartDashboardSubsystem();
 
+  public static Joystick driveStick;
+  public static Joystick turnStick;
+
   // Replace with CommandPS4Controller or CommandJoystick if needed
   private final CommandXboxController m_driverController =
       new CommandXboxController(OperatorConstants.kDriverControllerPort);
@@ -35,8 +42,22 @@ public class RobotContainer {
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
   public RobotContainer() {
     // Configure the trigger bindings
+
+    configureControllers();
+
     configureBindings();
+    
+
+    driveSubsystem.setDefaultCommand(
+        new DriveManuallyCommand());
+      
   }
+  
+  public void configureControllers() {
+    driveStick = new Joystick(0);
+    turnStick = new Joystick(1);
+  }
+   
 
   /**
    * Use this method to define your trigger->command mappings. Triggers can be created via the
@@ -55,7 +76,16 @@ public class RobotContainer {
     // Schedule `exampleMethodCommand` when the Xbox controller's B button is pressed,
     // cancelling on release.
     m_driverController.b().whileTrue(m_exampleSubsystem.exampleMethodCommand());
+
+    trajectoryCalibration();
   }
+
+  public void trajectoryCalibration() {
+    new JoystickButton(driveStick, 11)
+            .whileTrue(new RunTrajectorySequenceRobotAtStartPoint("1MeterForward"))
+            .whileFalse(new InstantCommand(RobotContainer.driveSubsystem::stopRobot, RobotContainer.driveSubsystem));
+}
+
 
   /**
    * Use this to pass the autonomous command to the main {@link Robot} class.

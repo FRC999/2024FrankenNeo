@@ -17,7 +17,7 @@ public class SmartDashboardSubsystem extends SubsystemBase {
   public void displayEncoders(){
     SmartDashboard.putNumber("Left Encoders",RobotContainer.driveSubsystem.getLeftEncoder());
     SmartDashboard.putNumber("Right Encoders",RobotContainer.driveSubsystem.getRightEncoder());
-    System.out.println("test");
+    //System.out.println("test");
   }
 
   public void updateAllDisplays(){

@@ -35,10 +35,29 @@ public class DriveSubsystem extends SubsystemBase {
 
     //configureEncoders();
 
+    configureMotors();
+
     zeroDriveEncoders();
 
+    drive = new DifferentialDrive(leftMotor, rightMotor);
   }
 
+
+
+  public void manualDrive(double move, double turn) {
+    
+    // If joysticks will prove to be too sensitive near the center, turn on the deadband driving
+    
+    // drive.arcadeDrive(deadbandMove(move), deadbandTurn(turn));
+    // System.out.println("D X "+move + " Y " + turn);
+    //drive.arcadeDrive(move, turn);
+    drive.arcadeDrive(move, turn);
+  }
+
+  public void configureMotors() {
+    rightMotor.setInverted(false);
+    leftMotor.setInverted(true);
+  }
   public void driveTrainBrakeMode() {
 
     rightMotor.setIdleMode(IdleMode.kBrake);
@@ -60,6 +79,15 @@ public class DriveSubsystem extends SubsystemBase {
     public double getRightEncoder() {
       return rightEncoder.getPosition();
     }
+
+    public void stopRobot() {
+      leftMotor.set(0);
+      rightMotor.set(0);
+    }
+
+    
+
+    
   
 
 
