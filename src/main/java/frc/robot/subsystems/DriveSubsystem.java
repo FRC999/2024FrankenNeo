@@ -12,6 +12,8 @@ import com.revrobotics.CANSparkMax.IdleMode;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 import com.revrobotics.SparkMaxRelativeEncoder.Type;
 
+import edu.wpi.first.math.geometry.Pose2d;
+import edu.wpi.first.math.kinematics.DifferentialDriveOdometry;
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
@@ -25,6 +27,8 @@ public class DriveSubsystem extends SubsystemBase {
   private RelativeEncoder leftEncoder;
 
   private DifferentialDrive drive;
+
+  private DifferentialDriveOdometry odometry;
 
   public DriveSubsystem() {
 
@@ -83,6 +87,19 @@ public class DriveSubsystem extends SubsystemBase {
     public void stopRobot() {
       leftMotor.set(0);
       rightMotor.set(0);
+    }
+
+    public void tankDriveVolts(double leftVolts, double rightVolts) {
+
+      //System.out.println("TV L:" + leftVolts + " R:" + rightVolts);
+  
+      leftMotor.set(leftVolts);
+      rightMotor.set(rightVolts);
+      drive.feed();
+    }
+
+    public Pose2d getPose() {
+      return odometry.getPoseMeters();
     }
 
     
