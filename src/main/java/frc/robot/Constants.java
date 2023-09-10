@@ -16,33 +16,30 @@ import edu.wpi.first.math.util.Units;
  * constants are needed, to reduce verbosity.
  */
 public final class Constants {
-
-
   public static class OperatorConstants {
     public static final int kDriverControllerPort = 0;
   }
-
   public static final class DriveConstants {
     public static final double ksVolts = 0.1231;
-    public static final double kvVoltSecondsPerMeter = 1.0882;   //Copied over from old code
+    public static final double kvVoltSecondsPerMeter = 0.5; //1.0882;   //Copied over from old code
     public static final double kaVoltSecondsSquaredPerMeter = 0.092837;
 
     public static final DifferentialDriveKinematics kDriveKinematics = new DifferentialDriveKinematics(
         Units.inchesToMeters(RobotDriveChassisConstants.distanceBetweenWheels));
-    public static final double trajectoryRioPidP_Value = 5.19693;
-    public static final double trajectoryRioPidD_Value = 0;        //Copied over from old code
-    public static final double trajectoryRioPidI_Value = 0.04;
+    public static final double trajectoryRioPidP_Value = 0.2;
+    public static final double trajectoryRioPidD_Value = 0;       
+    public static final double trajectoryRioPidI_Value = 0;
 
 
-    public static final double maxVelocityDefault = 3;
-    public static final double maxAccelerationDefault = 2; 
-   
+    public static final double maxVelocityDefault = 1;
+    public static final double maxAccelerationDefault = 0.1; 
 
     public static final class RobotDriveChassisConstants { // configure the physical properties unique to the robot
-     
-    public static final double wheelDiameter = 3.75; // inches
-    public static final double distanceBetweenWheels = 28.5; // inches
-    public static final double tickPerInch = 1292.0333;
+
+    public static final double wheelDiameter = Units.inchesToMeters(4);; // inches to meters
+    public static final double distanceBetweenWheels = Units.inchesToMeters(28.5); // inches to meters
+    static final double clicksPerFoot = 18.985 / 3.2808399;
+    public static final double tickPerInch =(clicksPerFoot / 12); // (int) (2048/(4*Math.PI));
 
 
 

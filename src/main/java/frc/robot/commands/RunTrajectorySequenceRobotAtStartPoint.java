@@ -28,6 +28,7 @@ public class RunTrajectorySequenceRobotAtStartPoint extends SequentialCommandGro
     trajectoryPath = PathPlanner.loadPath(trajectory, new PathConstraints(maxVelocity, maxAcceleration), reversed);
 
     addCommands(
+      new InstantCommand( () -> RobotContainer.driveSubsystem.resetOdometry(trajectoryPath.getInitialPose()) ),
       new AutonomousTrajectoryRioCommand(trajectoryPath) // Run a trajectory
     );
   }
@@ -40,7 +41,7 @@ public class RunTrajectorySequenceRobotAtStartPoint extends SequentialCommandGro
 
   public RunTrajectorySequenceRobotAtStartPoint(String trajectory, boolean reversed) {
 
-    this(trajectory, 2.0, 1.5, reversed);
+    this(trajectory, 1, 0.1, reversed);
     //this(trajectory, DriveConstants.maxVelocityDefault, DriveConstants.maxAccelerationDefault, reversed);
     System.out.println("*** Run trajectory "+ trajectory+" reversed:"+reversed);
   }

@@ -18,6 +18,8 @@ import edu.wpi.first.math.kinematics.DifferentialDriveWheelSpeeds;
 import edu.wpi.first.math.util.Units;
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import frc.robot.Constants;
+import frc.robot.RobotContainer;
 import frc.robot.Constants.DriveConstants.RobotDriveChassisConstants;
 
 public class DriveSubsystem extends SubsystemBase {
@@ -47,6 +49,13 @@ public class DriveSubsystem extends SubsystemBase {
     zeroDriveEncoders();
 
     drive = new DifferentialDrive(leftMotor, rightMotor);
+
+    odometry =
+        new DifferentialDriveOdometry(
+          RobotContainer.imuSubsystem.getRotation2d(),
+          TranslateDistanceIntoMeters(leftEncoder.getPosition()),
+          TranslateDistanceIntoMeters(-rightEncoder.getPosition())
+        );
   }
 
 
@@ -71,6 +80,10 @@ public class DriveSubsystem extends SubsystemBase {
     leftMotor.setIdleMode(IdleMode.kBrake);
   }
 
+  public double TranslateDistanceIntoMeters(double distanceRawUnits) {
+    return Units.inchesToMeters(distanceRawUnits / Constants.DriveConstants.RobotDriveChassisConstants.tickPerInch) ;
+  }
+
   public void zeroDriveEncoders() {  // zero encoders on master mmotor controllers of the drivetrain
 
     rightEncoder.setPosition(0);
@@ -88,13 +101,13 @@ public class DriveSubsystem extends SubsystemBase {
     }
 
     public void stopRobot() {
-      leftMotor.set(0);
-      rightMotor.set(0);
+      leftMotor.setVoltage(0);
+      rightMotor.setVoltage(0);
     }
 
     public void tankDriveVolts(double leftVolts, double rightVolts) {
 
-      //System.out.println("TV L:" + leftVolts + " R:" + rightVolts);
+      System.out.println("TV L:" + leftVolts + " R:" + rightVolts);
   
       leftMotor.set(leftVolts);
       rightMotor.set(rightVolts);
@@ -116,6 +129,38 @@ public class DriveSubsystem extends SubsystemBase {
           TranslateVelocityIntoMetersPerSecond(getRightEncoder())
       );
     }
+
+    public void resetOdometry(Pose2d pose) {
+
+      //zeroEncoders();   // Reset Encoders
+      RobotContainer.imuSubsystem.zeroHeading();  // Reset Yaw
+  
+      odometry.resetPosition(  // distances need to be in meters
+          RobotContainer.imuSubsystem.getRotation2d(),
+          TranslateDistanceIntoMeters(leftEncoder.getPosition()),
+          TranslateDistanceIntoMeters(-rightEncoder.getPosition()),
+          pose);
+  
+      System.out.println("*** Reset Position - X:"+ odometry.getPoseMeters().getX() +
+         " Y:"+ odometry.getPoseMeters().getY()
+      );
+    }
+
+    public void updateTrajectoryOdometry() {
+          Pose2d p1;
+          p1 = odometry.update(
+            RobotContainer.imuSubsystem.getRotation2d(),
+            TranslateDistanceIntoMeters(leftEncoder.getPosition()),
+            TranslateDistanceIntoMeters(rightEncoder.getPosition())
+      
+            //TranslateDistanceIntoMeters(getLeftEncoder()),
+            //TranslateDistanceIntoMeters(getRightEncoder())
+          );
+          
+         System.out.println("*****Odometry: "+odometry.getPoseMeters());
+         System.out.println("***LEFT ENCODER: "+leftEncoder.getPosition());
+         System.out.println("***RIGHT ENCODER: "+rightEncoder.getPosition());
+        }
 
     
 
