@@ -14,8 +14,11 @@ import com.revrobotics.SparkMaxRelativeEncoder.Type;
 
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.kinematics.DifferentialDriveOdometry;
+import edu.wpi.first.math.kinematics.DifferentialDriveWheelSpeeds;
+import edu.wpi.first.math.util.Units;
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import frc.robot.Constants.DriveConstants.RobotDriveChassisConstants;
 
 public class DriveSubsystem extends SubsystemBase {
   /** Creates a new DriveSubsystem. */
@@ -100,6 +103,18 @@ public class DriveSubsystem extends SubsystemBase {
 
     public Pose2d getPose() {
       return odometry.getPoseMeters();
+    }
+
+    public double TranslateVelocityIntoMetersPerSecond(double velocityRawUnits) {
+      // Raw units - ticks per 100ms
+      return Units.inchesToMeters((velocityRawUnits * 10) / RobotDriveChassisConstants.tickPerInch) ;
+    }
+
+    public DifferentialDriveWheelSpeeds getWheelSpeeds() { // needs to be meters per second
+      return new DifferentialDriveWheelSpeeds(
+          TranslateVelocityIntoMetersPerSecond(getLeftEncoder()),
+          TranslateVelocityIntoMetersPerSecond(getRightEncoder())
+      );
     }
 
     

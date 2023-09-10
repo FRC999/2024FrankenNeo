@@ -11,7 +11,7 @@ import frc.robot.commands.ExampleCommand;
 import frc.robot.commands.RunTrajectorySequenceRobotAtStartPoint;
 import frc.robot.subsystems.DriveSubsystem;
 import frc.robot.subsystems.ExampleSubsystem;
-import frc.robot.subsystems.PigeonIMUSubsystem;
+import frc.robot.subsystems.IMUSubsystem;
 import frc.robot.subsystems.SmartDashboardSubsystem;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj2.command.Command;
@@ -30,7 +30,7 @@ public class RobotContainer {
   // The robot's subsystems and commands are defined here...
   private final ExampleSubsystem m_exampleSubsystem = new ExampleSubsystem();
 
-  public static final PigeonIMUSubsystem pigeonIMUSubsystem = new PigeonIMUSubsystem();
+  public static final IMUSubsystem imuSubsystem = new IMUSubsystem();
 
   public static final DriveSubsystem driveSubsystem = new DriveSubsystem();
 

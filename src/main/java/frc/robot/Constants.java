@@ -42,6 +42,8 @@ public final class Constants {
      
     public static final double wheelDiameter = 3.75; // inches
     public static final double distanceBetweenWheels = 28.5; // inches
+    public static final double tickPerInch = 1292.0333;
+
 
 
   }

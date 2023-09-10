@@ -49,7 +49,7 @@ public class AutonomousTrajectoryRioCommand extends PPRamseteCommand {
       // RamseteCommand passes volts to the callback
       RobotContainer.driveSubsystem::tankDriveVolts,
       false,
-      RobotContainer.driveSubsystem, RobotContainer.pigeonIMUSubsystem
+      RobotContainer.driveSubsystem, RobotContainer.imuSubsystem
     );
     this.trajectoryPath = trajectoryPath;
   }
