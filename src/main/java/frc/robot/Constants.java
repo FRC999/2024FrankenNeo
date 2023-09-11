@@ -38,8 +38,9 @@ public final class Constants {
 
     public static final double wheelDiameter = Units.inchesToMeters(4);; // inches to meters
     public static final double distanceBetweenWheels = Units.inchesToMeters(28.5); // inches to meters
-    static final double clicksPerFoot = 18.985 / 3.2808399;
+    public static final double clicksPerFoot = 18.985 / 3.2808399;
     public static final double tickPerInch =(clicksPerFoot / 12); // (int) (2048/(4*Math.PI));
+    public static final double ticksPerMeter = 0.1; //TODO: PLACEHOLDER ONLY, will measure later
 
 
 

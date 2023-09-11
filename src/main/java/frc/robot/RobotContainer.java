@@ -8,6 +8,7 @@ import frc.robot.Constants.OperatorConstants;
 import frc.robot.commands.Autos;
 import frc.robot.commands.DriveManuallyCommand;
 import frc.robot.commands.ExampleCommand;
+import frc.robot.commands.HardwarePIDMove;
 import frc.robot.commands.RunTrajectorySequenceRobotAtStartPoint;
 import frc.robot.subsystems.DriveSubsystem;
 import frc.robot.subsystems.ExampleSubsystem;
@@ -88,7 +89,19 @@ public class RobotContainer {
     new JoystickButton(driveStick, 11)
             .whileTrue(new RunTrajectorySequenceRobotAtStartPoint("1MeterForward"))
             .whileFalse(new InstantCommand(RobotContainer.driveSubsystem::stopRobot, RobotContainer.driveSubsystem));
-}
+  }
+    
+  // public void hardwarePIDMovement() {
+  //   new JoystickButton(driveStick, 10)
+  //       .whileTrue(new InstantCommand(() -> RobotContainer.driveSubsystem.driveToDistanceInMeters(1, 1, 0, 0)))
+  //       .whileFalse(new InstantCommand(RobotContainer.driveSubsystem::stopRobot, RobotContainer.driveSubsystem));
+  // }
+
+  public void hardwarePIDMovement() {
+    new JoystickButton(driveStick, 10)
+        .whileTrue(new HardwarePIDMove())
+        .whileFalse(new InstantCommand(RobotContainer.driveSubsystem::stopRobot, RobotContainer.driveSubsystem));
+  }
 
 
   /**

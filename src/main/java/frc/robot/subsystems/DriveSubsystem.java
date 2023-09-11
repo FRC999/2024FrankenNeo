@@ -4,8 +4,10 @@
 
 package frc.robot.subsystems;
 
+import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.revrobotics.CANEncoder;
 import com.revrobotics.CANSparkMax;
+import com.revrobotics.ControlType;
 import com.revrobotics.RelativeEncoder;
 import com.revrobotics.SparkMaxRelativeEncoder;
 import com.revrobotics.CANSparkMax.IdleMode;
@@ -162,12 +164,34 @@ public class DriveSubsystem extends SubsystemBase {
          System.out.println("***RIGHT ENCODER: "+rightEncoder.getPosition());
         }
 
-    
+    public double metersToTicks(double meters) {
+      return meters * Constants.DriveConstants.RobotDriveChassisConstants.ticksPerMeter;
+    }
 
-    
-  
+    public void driveToDistanceInMeters(double targetDistanceMeters, double kP, double kI, double kD) {
+      double targetTicks = metersToTicks(targetDistanceMeters);
 
+      leftMotor.getPIDController().setP(kP);
+      leftMotor.getPIDController().setI(kI);
+      leftMotor.getPIDController().setD(kD);
 
+      rightMotor.getPIDController().setP(kP);
+      rightMotor.getPIDController().setI(kI);
+      rightMotor.getPIDController().setD(kD);
+
+      leftMotor.getPIDController().setReference(targetTicks, com.revrobotics.CANSparkMax.ControlType.kPosition);
+      rightMotor.getPIDController().setReference(targetTicks, com.revrobotics.CANSparkMax.ControlType.kPosition);
+
+      double tolerance = 100; // encoder ticks
+                              // TODO: will measure later
+
+      if ((Math.abs(leftEncoder.getPosition() - targetTicks) < tolerance &&
+          Math.abs(rightEncoder.getPosition() - targetTicks) < tolerance)) {
+            leftMotor.stopMotor();
+            rightMotor.stopMotor();
+      }
+
+    }
 
   // // Configure encoders on primary motors
   // public void configureEncoders(){
