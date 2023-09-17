@@ -30,6 +30,11 @@ public final class Constants {
     public static final double trajectoryRioPidD_Value = 0;       
     public static final double trajectoryRioPidI_Value = 0;
 
+    public static final double hardwarePidkP = 0.1;
+    public static final double hardwarePidkI = 0.1;
+    public static final double hardwarePidkD = 0.1;
+
+    public static final double PIDtolerance = 300; //TODO: will measure later
 
     public static final double maxVelocityDefault = 1;
     public static final double maxAccelerationDefault = 0.1; 

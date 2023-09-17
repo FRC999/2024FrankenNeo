@@ -98,7 +98,7 @@ public class RobotContainer {
   // }
 
   public void hardwarePIDMovement() {
-    new JoystickButton(driveStick, 10)
+    new JoystickButton(driveStick, 1)
         .whileTrue(new HardwarePIDMove())
         .whileFalse(new InstantCommand(RobotContainer.driveSubsystem::stopRobot, RobotContainer.driveSubsystem));
   }

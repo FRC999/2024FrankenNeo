@@ -1,0 +1,28 @@
+{
+  "HALProvider": {
+    "Other Devices": {
+      "Talon SRX[4]/Fwd Limit": {
+        "header": {
+          "open": true
+        }
+      },
+      "Talon SRX[4]/Quad Encoder": {
+        "header": {
+          "open": true
+        }
+      }
+    }
+  },
+  "NTProvider": {
+    "types": {
+      "/FMSInfo": "FMSInfo"
+    }
+  },
+  "NetworkTables": {
+    "transitory": {
+      "SmartDashboard": {
+        "open": true
+      }
+    }
+  }
+}

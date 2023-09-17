@@ -5,6 +5,7 @@
 package frc.robot.commands;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
+import frc.robot.Constants;
 import frc.robot.RobotContainer;
 import frc.robot.subsystems.DriveSubsystem;
 
@@ -23,7 +24,7 @@ public class HardwarePIDMove extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    RobotContainer.driveSubsystem.driveToDistanceInMeters(1, 1, 0, 0);
+    RobotContainer.driveSubsystem.driveToDistanceInMeters(1);
   }
 
   // Called once the command ends or is interrupted.
@@ -33,6 +34,8 @@ public class HardwarePIDMove extends CommandBase {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return false;
+    return (Math.abs(RobotContainer.driveSubsystem.getLeftEncoder() - RobotContainer.driveSubsystem.metersToTicks(1)) < Constants.DriveConstants.PIDtolerance && 
+    Math.abs(RobotContainer.driveSubsystem.getRightEncoder() - RobotContainer.driveSubsystem.metersToTicks(1)) < Constants.DriveConstants.PIDtolerance); 
+      
   }
 }
