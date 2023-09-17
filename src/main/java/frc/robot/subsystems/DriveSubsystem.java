@@ -185,27 +185,9 @@ public class DriveSubsystem extends SubsystemBase {
       double targetTicks = metersToTicks(targetDistanceMeters);
       System.out.println("***Distance in meters: "+targetDistanceMeters);
       System.out.println("***Distance in ticks: "+targetTicks);
-
-      // leftMotor.getPIDController().setP(kP);
-      // leftMotor.getPIDController().setI(kI);
-      // leftMotor.getPIDController().setD(kD);
-
-      // rightMotor.getPIDController().setP(kP);
-      // rightMotor.getPIDController().setI(kI);
-      // rightMotor.getPIDController().setD(kD);
-
+    
       leftMotor.getPIDController().setReference(targetTicks, com.revrobotics.CANSparkMax.ControlType.kPosition);
       rightMotor.getPIDController().setReference(targetTicks, com.revrobotics.CANSparkMax.ControlType.kPosition);
-
-      // double tolerance = 300; // encoder ticks
-                              // TODO: will measure later
-
-      // if ((Math.abs(leftEncoder.getPosition() - targetTicks) < tolerance &&
-      //     Math.abs(rightEncoder.getPosition() - targetTicks) < tolerance)) {
-      //       leftMotor.stopMotor();
-      //       rightMotor.stopMotor();
-      //       System.out.println("***Hardware PID ended***");
-      // }
 
     }
 
